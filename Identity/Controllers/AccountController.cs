@@ -93,7 +93,7 @@ namespace Identity.Controllers
                 return LocalRedirect(returnUrl);
             }
             TempData["Message"] = "Logout Success";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
     }
