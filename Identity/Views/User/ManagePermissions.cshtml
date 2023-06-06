@@ -5,93 +5,59 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Type
-                                </th>
-                                <th>
-                                    Permission Name
-                                </th>
-                                <th>
-                                    Status
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (var i = 0; i < Model.ManagePermissionsViewModel.Count(); i++)
-                            {
-                                <tr>
-                                    <td class="text-center" id="claimType@(i)">
-                                        @Model.ManagePermissionsViewModel[i].Type
-                                    </td>
-                                    <td class="text-center" id="claimValue@(i)">
-                                        @Model.ManagePermissionsViewModel[i].Value
-                                    </td>
-                                    <td>
-                                        <div class="form-check m-1">
-                                            <input asp-for="@Model.ManagePermissionsViewModel[i].Checked" class="form-check-input" id="checked@(i)" onchange="permissionChanged(@i)" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
-              <div class="card-footer clearfix">
-                @{
-                    var prevDisabled = !Model.ManagePermissionsViewModel.HasPreviousPage ? "disabled" : "";
-                    var nextDisabled = !Model.ManagePermissionsViewModel.HasNextPage ? "disabled" : "";
-                }
-                <div class="row">
-                    <div class="col-sm-9">
-                        <ul class="pagination">
-                            <li>
-                                <a asp-action="ManagePermissions"
-                                   asp-route-userId="@Model.UserId"
-                                   asp-route-pageNumber="@(Model.ManagePermissionsViewModel.PageIndex - 1)"
-                                   class="btn btn-default @prevDisabled">
-                                    Previous
-                                </a>
-                            </li>
-                            @for (var i = 1; i <= Model.ManagePermissionsViewModel.TotalPages; i++)
-                            {
-                                <li class="page-item @(i == Model.ManagePermissionsViewModel.PageIndex ? "active" : "")" style="z-index: 0;">
-                                    <a asp-action="ManagePermissions"
-                                       asp-route-userId="@Model.UserId"
-                                       asp-route-pageNumber="@i"
-                                       class="page-link">@i</a>
-                                </li>
-                            }
-                            <li>
-                                <a asp-action="ManagePermissions"
-                                   asp-route-userId="@Model.UserId"
-                                   asp-route-pageNumber="@(Model.ManagePermissionsViewModel.PageIndex + 1)"
-                                   class="btn btn-default @nextDisabled">
-                                    Next
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="card-header">
+                        <h3 class="card-title">User Permissions</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Type
+                                        </th>
+                                        <th class="text-center">
+                                            Permission Name
+                                        </th>
+                                        <th class="text-center">
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (var i = 0; i < Model.ManagePermissionsViewModel.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td class="text-center" id="claimType@(i)">
+                                                @Model.ManagePermissionsViewModel[i].Type
+                                            </td>
+                                            <td class="text-center" id="claimValue@(i)">
+                                                @Model.ManagePermissionsViewModel[i].Value
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-check-inline m-1">
+                                                    <input asp-for="@Model.ManagePermissionsViewModel[i].Checked" class="form-check-input form-switch" id="checked@(i)" onchange="permissionChanged(@i)" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
-   </div>
-   </div>
+    </div>
 </section>
-@section Scripts
-{
 
+@section Scripts
+    {
     <script>
         var userId = '@Model.UserId';
         var userName = '@Model.UserName';
@@ -132,11 +98,11 @@
                             document.getElementById("checked" + i).checked = !document.getElementById("checked" + i).checked;
                         }
                     },
-                    failure: function(response) {
+                    failure: function (response) {
                         alert(response.responseText);
                         document.getElementById("checked" + i).checked = !document.getElementById("checked" + i).checked;
                     },
-                    error: function(response) {
+                    error: function (response) {
                         alert(response.responseText);
                         document.getElementById("checked" + i).checked = !document.getElementById("checked" + i).checked;
                     }

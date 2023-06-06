@@ -23,6 +23,7 @@ namespace Identity.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
+
         [HttpGet]
         [Authorize(Policy = Permissions.Permissions.Users.View)]
         public IActionResult Index()
@@ -37,8 +38,6 @@ namespace Identity.Controllers
 
             return View(userViewModels);
         }
-
-
 
         [HttpGet]
         [Authorize(Policy = Permissions.Permissions.Users.ManageRoles)]
