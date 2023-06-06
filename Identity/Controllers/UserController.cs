@@ -23,19 +23,21 @@ namespace Identity.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
         [HttpGet]
         [Authorize(Policy = Permissions.Permissions.Users.View)]
-        public async Task<IActionResult> Index(int? pageNumber, int? pageSize)
+        public IActionResult Index()
         {
             var users = _userManager.Users.OrderBy(x => x.UserName);
-            var rs = await PaginatedList<AppUser>.CreateFromEfQueryableAsync(users.AsNoTracking(), pageNumber ?? 1,
-                pageSize ?? 12);
-            var userViewModels = rs.Select(user => new UserViewModel
-                {Id = user.Id, UserName = user.UserName, Email = user.Email}).ToList();
-            var response = new PaginatedList<UserViewModel>(userViewModels, rs.Count, pageNumber ?? 1, pageSize ?? 12);
-            return View(response);
+            var userViewModels = users.Select(user => new UserViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email
+            }).ToList();
+
+            return View(userViewModels);
         }
+
 
 
         [HttpGet]
@@ -89,47 +91,57 @@ namespace Identity.Controllers
             return RedirectToAction("Index", "User", new {  id = manageUserRolesViewModel.UserId, succeeded = true, message = "Succeeded" });
         }
 
-        
+
         [HttpGet]
         [Authorize(Policy = Permissions.Permissions.Users.ManageClaims)]
         public async Task<IActionResult> ManagePermissions(string userId, string permissionValue, int? pageNumber, int? pageSize)
         {
-
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return RedirectToAction("Index");
+            if (user == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             var userPermissions = await _userManager.GetClaimsAsync(user);
             var allPermissions = PermissionHelper.GetAllPermissions();
+
             if (!string.IsNullOrWhiteSpace(permissionValue))
             {
                 allPermissions = allPermissions.Where(x => x.Value.ToLower().Contains(permissionValue.Trim().ToLower()))
                     .ToList();
             }
+
             var managePermissionsClaim = new List<ManageUserClaimViewModel>();
+
             foreach (var permission in allPermissions)
             {
                 var managePermissionClaim = new ManageUserClaimViewModel { Type = permission.Type, Value = permission.Value };
+
                 if (userPermissions.Any(x => x.Value == permission.Value))
                 {
                     managePermissionClaim.Checked = true;
                 }
+
                 managePermissionsClaim.Add(managePermissionClaim);
             }
 
-            var paginatedList = PaginatedList<ManageUserClaimViewModel>.CreateFromLinqQueryable(managePermissionsClaim.AsQueryable(),
+            var permisionList = PaginatedList<ManageUserClaimViewModel>.CreateFromLinqQueryable(managePermissionsClaim.AsQueryable(),
                 pageNumber ?? 1, pageSize ?? 12);
+
             var manageUserPermissionsViewModel = new ManageUserPermissionsViewModel
             {
                 UserId = userId,
                 UserName = user.UserName,
                 PermissionValue = permissionValue,
-                ManagePermissionsViewModel = paginatedList
+                ManagePermissionsViewModel = permisionList
             };
-            
+
             return View(manageUserPermissionsViewModel);
         }
 
 
-       
+
+
         [HttpPost]
         [Authorize(Policy = Permissions.Permissions.Users.ManageClaims)]
         public async Task<IActionResult> ManageClaims(ManageUserClaimViewModel manageUserClaimViewModel)
