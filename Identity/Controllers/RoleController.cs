@@ -107,7 +107,6 @@ namespace Identity.Controllers
             return View(editRoleViewModel);
         }
 
-
         [HttpGet]
         [Authorize(Policy = Permissions.Permissions.Roles.ManageClaims)]
         public async Task<IActionResult> ManageRolePermissions(string roleId, string permissionValue, int? pageNumber, int? pageSize)

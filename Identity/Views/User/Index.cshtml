@@ -10,18 +10,25 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Users</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerRoleModal">
-                                <i class="fas fa-plus"></i> Add User
-                            </button>
-                        </div>
+                        <section class="content-header">
+                            <div class="container-fluid">
+                                <div class="row mb-1" style="height: 20px;">
+                                    <div class="col-sm-6">
+                                        <h1>Users</h1>
+                                    </div>
+                                    <div class="col-sm-6 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerRoleModal">
+                                            <i class="fas fa-plus"></i> Add User
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body">                     
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>User Name</th>
                                     <th>Email</th>
                                     <th>Action</th>
@@ -32,19 +39,24 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Id)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.UserName)
+                                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#descriptionModal-@item.Id">
+                                            @item.UserName
+                                        </button>
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Email)
                                         </td>
+                                      
                                         <td>
+                                            <a id="btnEdit-@item.Id" data-toggle="modal" data-target="#editRoleModal-@item.Id" class="btn btn-primary btn-sm edit-button" data-role-id="@item.Id" data-role-name="@item.UserName" data-role-description="@item.Email">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
                                             <a asp-action="ManageRoles" asp-route-userId="@item.Id" class="btn btn-primary btn-sm edit-button">
                                                 <i class="fas fa-users-cog"></i> Roles
                                             </a>
-
+                                            <a id="btnDelete-@item.Id" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal-@item.Id">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </a>
                                             <a asp-action="ManagePermissions" asp-route-userId="@item.Id" class="btn btn-info btn-sm">
                                                 <i class="fas fa-lock"></i> Permissions
                                             </a>
@@ -60,6 +72,7 @@
     </div>
 </section>
 
+@* Register User *@
 <div class="modal fade" id="registerRoleModal" tabindex="-1" role="dialog" aria-labelledby="registerRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -100,3 +113,112 @@
         </div>
     </div>
 </div>
+
+@*  User Description *@
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="descriptionModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel-@item.Id" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="roleName">User Id</label>
+                        <p>@item.Id</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="roleName"> Firs tName</label>
+                        <p>@item.FirstName</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="roleName">Last Name</label>
+                        <p>@item.LastName</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="roleDescription">Email</label>
+                        <p>@item.Email</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<!-- Edit Role Modal -->
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="editRoleModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="editRoleModal-@item.Id" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRoleModalLabel">Edit Role</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form asp-controller="User" asp-action="Edit" method="Post" id="registerUserForm">
+            
+                    <div class="modal-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input type="hidden" name="RoleId" value="@item.Id" />
+                            <label for="Name">User Id</label>
+                            <input type="text" class="form-control" name="Id" value="@item.Id" readonly>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="RoleId" value="@item.Id" />
+                            <label for="Name">First Name</label>
+                            <input type="text" class="form-control" id="Name" name="FirstName" value="@item.FirstName">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="RoleId" value="@item.Id" />
+                            <label for="Name">Last Name</label>
+                            <input type="text" class="form-control" id="Name" name="LastName" value="@item.LastName">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="RoleId" value="@item.Id" />
+                            <label for="Name">Email</label>
+                            <input type="email" class="form-control" id="Name" name="Email" value="@item.Email">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Delete Role Modal -->
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="DeleteModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel-@item.Id" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="DeleteModalLabel-@item.Id">Delete Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this record @item.Id?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    @using (Html.BeginForm("DeleteUser", "User", new { userId = item.Id }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

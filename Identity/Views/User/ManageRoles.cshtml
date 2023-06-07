@@ -10,10 +10,21 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Manage Roles for User: <b>@Model.UserName</b></h3>
-                        <a asp-action="Index" class="float-right">See All Users</a>
-                    </div>
+                    <section class="content-header">
+                        <div class="container-fluid">
+                            <div class="row mb-1" style="height: 20px;">
+                                <div class="col-sm-6">
+                                    <h5>Manage Roles for User: <b>@Model.UserName</b></h5>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-sm-right">
+                                        <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+                                        <li class="breadcrumb-item active">User Permissions</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                     <div class="card-body">
                         <form method="post" asp-action="ManageRoles">
                             <input asp-for="@Model.UserId" type="hidden" />
@@ -23,7 +34,6 @@
                                     <thead>
                                         <tr>
                                             <th>Role</th>
-                                            <th>Description</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -31,12 +41,16 @@
                                         @for (var i = 0; i < Model.ManageRolesViewModel.Count(); i++)
                                         {
                                             <tr>
-                                                <td>@Model.ManageRolesViewModel[i].Name</td>
-                                                <td>@Model.ManageRolesViewModel[i].Description</td>
+                                                <input type="hidden" asp-for="@Model.ManageRolesViewModel[i].Name" type="hidden" />
                                                 <td>
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input asp-for="@Model.ManageRolesViewModel[i].Checked" class="custom-control-input" id="checkbox-@i" />
-                                                        <label class="custom-control-label" for="checkbox-@i"></label>
+                                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#descriptionModal-@Model.ManageRolesViewModel[i].Name">
+                                                        @Model.ManageRolesViewModel[i].Name
+                                                    </button>
+
+                                                </td>
+                                                <td>
+                                                    <div class="form-check m-1">
+                                                        <input asp-for="@Model.ManageRolesViewModel[i].Checked" class="form-check-input" />
                                                     </div>
                                                 </td>
                                             </tr>
@@ -56,3 +70,29 @@
         </div>
     </div>
 </section>
+
+<!-- Role Description Modal -->
+@foreach (var item in Model.ManageRolesViewModel)
+{
+    <div class="modal fade" id="descriptionModal-@item.Name" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel-@item.Name" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="roleName">Role Name</label>
+                        <p>@item.Name</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="roleDescription">Role Description</label>
+                        <p>@item.Description</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

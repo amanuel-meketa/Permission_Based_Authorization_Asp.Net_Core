@@ -33,10 +33,35 @@ namespace Identity.Controllers
             {
                 Id = user.Id,
                 UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email
             }).ToList();
 
             return View(userViewModels);
+        }
+
+        [HttpPost]
+        [Authorize(Policy = Permissions.Permissions.Users.Edit)]
+        public async Task<IActionResult> Edit(AppUser editUserViewModel)
+        {
+            if (!ModelState.IsValid)
+                return View(editUserViewModel);
+
+            var user = await _userManager.FindByIdAsync(editUserViewModel.Id);
+            if (user == null)
+                return NotFound();
+
+            user.FirstName = editUserViewModel.FirstName;
+            user.LastName = editUserViewModel.LastName;
+            user.Email = editUserViewModel.Email;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+
+            ModelState.AddModelError(string.Empty, result.ToString());
+            return View(editUserViewModel);
         }
 
         [HttpGet]
@@ -170,6 +195,21 @@ namespace Identity.Controllers
                 }
             }
             return Json(new {Succeeded = true, Message="Success"});
+        }
+
+        [HttpPost]
+        [Authorize(Policy = Permissions.Permissions.Users.Delete)]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+
+            return RedirectToAction("Index", new { succeeded = false, message = result.ToString() });
         }
     }
 }
