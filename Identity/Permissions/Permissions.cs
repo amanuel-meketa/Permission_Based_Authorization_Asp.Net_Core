@@ -22,13 +22,13 @@
 
         }
 
-        public static class TestUser
+        public static class OrganizationSetup
         {
-            public const string View = "Permissions.TestUser.View";
-            public const string Create = "Permissions.TestUser.Create";
-            public const string Edit = "Permissions.TestUser.Edit";
-            public const string Delete = "Permissions.TestUser.Delete";
-            public const string Details = "Permissions.TestUser.Details";
+            public const string View = "Permissions.OrganizationSetup.View";
+            public const string Create = "Permissions.OrganizationSetup.Create";
+            public const string Edit = "Permissions.OrganizationSetup.Edit";
+            public const string Delete = "Permissions.OrganizationSetup.Delete";
+            public const string Details = "Permissions.OrganizationSetup.Details";
 
         }
     }

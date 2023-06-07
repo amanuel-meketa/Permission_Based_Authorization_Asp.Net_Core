@@ -11,7 +11,7 @@ namespace Identity.Data
         {
 
         }
-        public DbSet<TestUser> testUsers { get; set; }
+        public DbSet<OrganizationSetup> OrganizationSetups { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
