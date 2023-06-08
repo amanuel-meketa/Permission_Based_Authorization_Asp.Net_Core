@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Identity.Data;
 using Identity.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Identity.Helpers;
 
 namespace Identity.Controllers
 {
@@ -48,16 +52,15 @@ namespace Identity.Controllers
             return View();
         }
 
-        // POST: OrganizationSetups/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Motto,logo,Abbreviation,Phone,Email,Address,MapLink,CreatedDate")] OrganizationSetup organizationSetup)
+        public async Task<IActionResult> Create(OrganizationSetup organizationSetup, IFormFile file)
         {
             if (ModelState.IsValid)
             {
                 organizationSetup.Id = Guid.NewGuid();
+                var logo = FileService.UploadedFile(file);
+                organizationSetup.logo = logo;
                 _context.Add(organizationSetup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -115,26 +118,7 @@ namespace Identity.Controllers
             }
             return View(organizationSetup);
         }
-
-        //// GET: OrganizationSetups/Delete/5
-        //public async Task<IActionResult> Delete(Guid? id)
-        //{
-        //    if (id == null || _context.OrganizationSetups == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var organizationSetup = await _context.OrganizationSetups
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (organizationSetup == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(organizationSetup);
-        //}
-
-        // POST: OrganizationSetups/Delete/5
+       
         [HttpPost]
         [Authorize(Policy = Permissions.Permissions.OrganizationSetup.Delete)]
         [ValidateAntiForgeryToken]
