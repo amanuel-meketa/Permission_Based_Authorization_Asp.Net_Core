@@ -149,22 +149,18 @@ namespace Identity.Controllers
                 managePermissionsClaim.Add(managePermissionClaim);
             }
 
-            var permisionList = PaginatedList<ManageUserClaimViewModel>.CreateFromLinqQueryable(managePermissionsClaim.AsQueryable(),
-                pageNumber ?? 1, pageSize ?? 12);
+            var managePermissionsClaimList = managePermissionsClaim.ToList();
 
             var manageUserPermissionsViewModel = new ManageUserPermissionsViewModel
             {
                 UserId = userId,
                 UserName = user.UserName,
                 PermissionValue = permissionValue,
-                ManagePermissionsViewModel = permisionList
+                ManagePermissionsViewModel = managePermissionsClaimList
             };
 
             return View(manageUserPermissionsViewModel);
         }
-
-
-
 
         [HttpPost]
         [Authorize(Policy = Permissions.Permissions.Users.ManageClaims)]

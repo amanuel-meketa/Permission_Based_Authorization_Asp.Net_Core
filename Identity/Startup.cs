@@ -24,8 +24,7 @@ namespace Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IdentityContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"),
+            services.AddDbContext<IdentityContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"),
                     b => b.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
             services.AddIdentity<AppUser, AppRole>(options =>
                     {

@@ -134,18 +134,16 @@ namespace Identity.Controllers
                 managePermissionsClaim.Add(managePermissionClaim);
             }
 
-            var paginatedList = PaginatedList<ManageClaimViewModel>.CreateFromLinqQueryable(
-                managePermissionsClaim.AsQueryable(),
-                pageNumber ?? 1,
-                pageSize ?? 12);
+            var managePermissionsList = managePermissionsClaim.ToList();
 
             var manageRolePermissionsViewModel = new ManageRolePermissionsViewModel
             {
                 RoleId = roleId,
                 RoleName = role.Name,
                 PermissionValue = permissionValue,
-                ManagePermissionsViewModel = paginatedList
+                ManagePermissionsViewModel = managePermissionsList
             };
+
 
             if (allPermissions.Count > 0)
                 return View(manageRolePermissionsViewModel);

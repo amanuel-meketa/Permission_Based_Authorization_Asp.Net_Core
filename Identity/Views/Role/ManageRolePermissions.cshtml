@@ -59,3 +59,59 @@
         </div>
     </div>
 </section>
+
+
+@section Scripts
+    {
+    <script>
+        var roleId = '@Model.RoleId';
+        var roleName = '@Model.RoleName';
+        function permissionChanged(i) {
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Role/ManageRoleClaims",
+                    data: {
+                        RoleId: roleId,
+                        RoleName: roleName,
+                        Type: document.getElementById("claimType" + i).innerHTML.trim(),
+                        Value: document.getElementById("claimValue" + i).innerHTML.trim(),
+                        Checked: document.getElementById("checked" + i).checked
+                    },
+                    success: function (response) {
+                        if (response != null) {
+                            if (response.succeeded === true) {
+                                Swal.fire({
+                                    title: 'Succeeded',
+                                    text: response.message,
+                                    icon: 'success'
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Failed',
+                                    text: response.message,
+                                    icon: 'error'
+                                });
+                                document.getElementById("checked" + i).checked = !document.getElementById("checked" + i).checked;
+                            }
+                        } else {
+                            Swal.fire({
+                                title: 'Failed',
+                                text: "Something went wrong",
+                                icon: 'error'
+                            });
+                            document.getElementById("checked" + i).checked = !document.getElementById("checked" + i).checked;
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                        document.getElementById("checked" + i).checked = !document.getElementById("checked" + i).checked;
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                        document.getElementById("checked" + i).checked = !document.getElementById("checked" + i).checked;
+                    }
+                });
+        }
+    </script>
+}

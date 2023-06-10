@@ -4,20 +4,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace Identity.Controllers
 {
-    
     public class AccountController : Controller
     {
+        private readonly IConfiguration _configuration;
+
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(UserManager<AppUser> userManager,
-                                SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
+                                IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
         [HttpGet]
         [AllowAnonymous]
@@ -55,6 +59,8 @@ namespace Identity.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
+            var allowAnonymousRegistration = _configuration.GetValue<bool>("Registration:AllowAnonymousRegistration");
+            ViewBag.AllowAnonymousRegistration = allowAnonymousRegistration;
             return View(new LoginUserViewModel());
         }
 

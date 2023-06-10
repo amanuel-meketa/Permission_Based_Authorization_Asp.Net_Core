@@ -1,4 +1,5 @@
 ﻿using Identity.Helpers;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Identity.ViewModels
@@ -9,6 +10,6 @@ namespace Identity.ViewModels
         public string RoleId { get; set; }
         public string RoleName { get; set; }
         public string PermissionValue { get; set; }
-        public PaginatedList<ManageClaimViewModel> ManagePermissionsViewModel { get; set; }
+        public IList<ManageClaimViewModel> ManagePermissionsViewModel { get; set; }
     }
 }

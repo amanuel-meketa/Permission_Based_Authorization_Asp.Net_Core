@@ -58,10 +58,12 @@
                         </div>
                     </div>
                 </form>
-
-                <p class="mb-0">
-                    <a href="register.html" class="text-center">Register a new membership</a>
-                </p>
+                @if (@ViewBag.AllowAnonymousRegistration == true)
+                {
+                   <p class="mb-0">
+                       <a asp-action="register" asp-controller="Account" class="text-center">Register a new membership</a>
+                   </p>
+                }
             </div>
         </div>
     </div>

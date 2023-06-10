@@ -16,14 +16,11 @@
                                     <div class="col-sm-6">
                                         <h1> Organization Setups</h1>
                                     </div>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-xl">
-                                        Add Organization
-                                    </button>
-                                    @*<div class="col-sm-6 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">
-                                            <i class="fas fa-plus"></i> Add Organization
+                                    <div class="col-sm-6 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-xl">
+                                            Add Organization
                                         </button>
-                                    </div>*@
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -49,19 +46,12 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Abbreviation)
                                         </td>
-
                                         <td>
                                             <a id="btnEdit-@item.Id" data-toggle="modal" data-target="#editModal-@item.Id" class="btn btn-primary btn-sm edit-button" data-role-id="@item.Id">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <a asp-action="ManageRoles" asp-route-userId="@item.Id" class="btn btn-primary btn-sm edit-button">
-                                                <i class="fas fa-users-cog"></i> Roles
-                                            </a>
                                             <a id="btnDelete-@item.Id" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal-@item.Id">
                                                 <i class="fas fa-trash"></i> Delete
-                                            </a>
-                                            <a asp-action="ManagePermissions" asp-route-userId="@item.Id" class="btn btn-info btn-sm">
-                                                <i class="fas fa-lock"></i> Permissions
                                             </a>
                                         </td>
                                     </tr>
@@ -104,7 +94,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="MapLink">MapLink</label>
-                                <input type="text" class="form-control" id="MapLink" name="MapLink" placeholder="Enter MapLink">
+                                <textarea type="text" class="form-control" id="MapLink" name="MapLink" placeholder="Enter map"></textarea>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -120,7 +110,6 @@
                                 <label for="Address">Address</label>
                                 <input type="text" class="form-control" id="Address" name="Address" placeholder="Enter Address">
                             </div>
-                           
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -129,7 +118,6 @@
                                 <img id="imagePreview" src="~/Images/OrganizationSetups/defaultLogo.png" alt="Default Image" style="max-width: 250px; max-height: 250px; margin-top: 10px; border: 2px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -141,40 +129,79 @@
     </div>
 </div>
 
-<script>
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function () {
-            var imagePreview = document.getElementById('imagePreview');
-            imagePreview.src = reader.result;
-            imagePreview.style.display = 'block';
-        }
-        reader.readAsDataURL(event.target.files[0]);
-    }
-</script>
-
-@*  Details Modal *@
+<!-- Detail Modal -->
 @foreach (var item in Model)
 {
     <div class="modal fade" id="descriptionModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel-@item.Id" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Organization Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="roleName">User Id</label>
-                        <p>@item.Id</p>
-                    </div>
-                    <div class="form-group">
-                        <label for="roleName"> Firs tName</label>
-                        <p>@item.Name</p>
-                    </div>
-                    <div class="form-group">
-                        <label for="roleName">Last Name</label>
-                        <p>@item.Motto</p>
-                    </div>
-                    <div class="form-group">
-                        <label for="roleDescription">Email</label>
-                        <p>@item.Abbreviation</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Name">Name</label>
+                                <input type="text" class="form-control" id="Name" name="Name" placeholder="@item.Name" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Motto">Motto</label>
+                                <input type="text" class="form-control" id="Motto" name="Motto" placeholder="@item.Motto" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Abbreviation">Abbreviation</label>
+                                <input type="text" class="form-control" id="Abbreviation" name="Abbreviation" placeholder="@item.Abbreviation" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Phone">Phone</label>
+                                <input type="tel" class="form-control" id="Phone" name="Phone" placeholder="@item.Phone" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Email">Email</label>
+                                <input type="email" class="form-control" id="Email" name="Email" placeholder="@item.Email" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Address">Address</label>
+                                <input type="text" class="form-control" id="Address" name="Address" placeholder="@item.Address" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="File">Logo</label>
+                                @if (string.IsNullOrEmpty(item.logo))
+                                {
+                                   <img id="imagePreview" src="~/Images/OrganizationSetups/defaultLogo.png" alt="Default Image" style="max-width: 250px; max-height: 250px; margin-top: 10px; border: 2px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                }
+                                else
+                                {
+                                   <img id="imagePreview" src="~/Images/OrganizationSetups/@item.logo" alt="Default Image" style="max-width: 250px; max-height: 250px; margin-top: 10px; border: 2px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Map">Map</label>
+                                <div class="card">
+                                    <div class="card-body p-0">
+                                        @if (string.IsNullOrEmpty(item.MapLink))
+                                        {
+                                            <iframe src="@item.MapLink" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                        }
+                                        else
+                                        {
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8067819.60088041!2d36.000729693703356!3d9.121462927534841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1635d0cedd6cfd2b%3A0x7bf6a67f5348c55a!2z4Yqi4Ym14Yuu4Yy14Yur!5e0!3m2!1sam!2set!4v1659960379955!5m2!1sam!2set"
+                                            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -183,52 +210,81 @@
             </div>
         </div>
     </div>
-
 }
 
 <!-- Edit  Modal -->
 @foreach (var item in Model)
 {
     <div class="modal fade" id="editModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="editModal-@item.Id" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editRoleModalLabel">Edit Role</h5>
+                    <h4 class="modal-title">Organization Details</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
-                <form asp-controller="User" asp-action="Edit" method="Post" id="registerUserForm">
-
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <input type="hidden" name="RoleId" value="@item.Id" />
-                            <label for="Name">User Id</label>
-                            <input type="text" class="form-control" name="Id" value="@item.Id" readonly>
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" name="RoleId" value="@item.Id" />
-                            <label for="Name">First Name</label>
-                            <input type="text" class="form-control" id="Name" name="FirstName" value="@item.Name">
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" name="RoleId" value="@item.Id" />
-                            <label for="Name">Last Name</label>
-                            <input type="text" class="form-control" id="Name" name="LastName" value="@item.Motto">
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" name="RoleId" value="@item.Id" />
-                            <label for="Name">Email</label>
-                            <input type="email" class="form-control" id="Name" name="Email" value="@item.Abbreviation">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Name">Name</label>
+                                    <input type="text" class="form-control" id="Name" name="Name" value="@item.Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Motto">Motto</label>
+                                    <input type="text" class="form-control" id="Motto" name="Motto" value="@item.Motto">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Abbreviation">Abbreviation</label>
+                                    <input type="text" class="form-control" id="Abbreviation" name="Abbreviation" value="@item.Abbreviation">
+                                </div>
+                                <div class="form-group">
+                                    <label for="MapLink">MapLink</label>
+                                    <textarea type="text" class="form-control" id="MapLink" name="MapLink" value="@item.MapLink"> @item.MapLink </textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Phone">Phone</label>
+                                    <input type="tel" class="form-control" id="Phone" name="Phone" value="@item.Phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Email">Email</label>
+                                    <input type="email" class="form-control" id="Email" name="Email" value="@item.Email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Address">Address</label>
+                                    <input type="text" class="form-control" id="Address" name="Address" value="@item.Address">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="File">Logo Upload</label>
+                                    <input type="file" class="form-control-file" id="File" name="file" onchange="previewImage(event)">
+
+                                    @if (string.IsNullOrEmpty(item.logo))
+                                    {
+                                        <img id="imagePreview" src="~/Images/OrganizationSetups/defaultLogo.png" alt="Default Image" style="max-width: 250px; max-height: 250px; margin-top: 10px; border: 2px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    }
+                                    else
+                                    {
+                                        <img id="imagePreview" src="~/Images/OrganizationSetups/@item.logo" alt="Default Image" style="max-width: 250px; max-height: 250px; margin-top: 10px; border: 2px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    }
+                                  </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit" value="Create">Create</button>
                     </div>
                 </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -261,3 +317,16 @@
         </div>
     </div>
 }
+
+@* Logo display when selected *@
+<<script>
+     function previewImage(event) {
+         var reader = new FileReader();
+         reader.onload = function () {
+             var imagePreview = document.getElementById('imagePreview');
+             imagePreview.src = reader.result;
+             imagePreview.style.display = 'block';
+         }
+         reader.readAsDataURL(event.target.files[0]);
+     }
+</script>
