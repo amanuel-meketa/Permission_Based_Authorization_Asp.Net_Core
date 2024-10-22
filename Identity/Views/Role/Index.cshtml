@@ -4,8 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -23,7 +21,7 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Description</th>
+                                    <th>Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -32,18 +30,9 @@
                                 {
                                     <tr>
                                         <td>
-                                            @if (!string.IsNullOrEmpty(item.Description))
-                                            {
-                                                var words = item.Description.Split(' ');
-                                                if (words.Length > 10)
-                                                {
-                                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#descriptionModal-@item.Id">
-                                                        @Html.DisplayFor(modelItem => item.Name)
-                                                    </button>
-                                                }
-                                                else
-                                                    @item.Description
-                                            }
+                                                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#descriptionModal-@item.Id">
+                                                @item.Name
+                                                </button>
                                         </td>
                                         <td>
                                             <a id="btnEdit-@item.Id" data-toggle="modal" data-target="#editRoleModal-@item.Id" class="btn btn-primary btn-sm edit-button" data-role-id="@item.Id" data-role-name="@item.Name" data-role-description="@item.Description">
@@ -53,7 +42,7 @@
                                                 <i class="fas fa-trash"></i> Delete
                                             </a>
                                             <a asp-action="ManageRolePermissions" asp-route-roleId="@item.Id" class="btn btn-info btn-sm">
-                                                <i class="fas fa-cogs"></i> Manage Permissions
+                                                <i class="fas fa-cogs"></i> Permissions
                                             </a>
                                         </td>
                                     </tr>
@@ -79,7 +68,6 @@
             </div>
             <form asp-action="Add" id="registerRoleForm">
                 <div class="modal-body">
-                    <!-- Your registration form code here -->
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label for="roleName">Role Name</label>

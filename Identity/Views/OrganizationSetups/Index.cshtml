@@ -10,28 +10,20 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <section class="content-header">
-                            <div class="container-fluid">
-                                <div class="row mb-1" style="height: 20px;">
-                                    <div class="col-sm-6">
-                                        <h1> Organization Setups</h1>
-                                    </div>
-                                    <div class="col-sm-6 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-xl">
-                                            Add Organization
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                        <h3 class="card-title">Organization Setups</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-xl">
+                                <i class="fas fa-plus"></i>Add Organization
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th> Name</th>
-                                    <th>Abbreviation</th>
-                                    <th>Action</th>
+                                    <th> Abbreviation</th>
+                                    <th> Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,7 +106,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="File">Logo Upload</label>
-                                <input type="file" class="form-control-file" id="File" name="file" onchange="previewImage(event)">
+                                <input type="file" class="form-control-file" id="File" name="logo" onchange="previewImage(event)">
                                 <img id="imagePreview" src="~/Images/OrganizationSetups/defaultLogo.png" alt="Default Image" style="max-width: 250px; max-height: 250px; margin-top: 10px; border: 2px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                             </div>
                         </div>
@@ -212,20 +204,21 @@
     </div>
 }
 
-<!-- Edit  Modal -->
+<!-- Edit Modal -->
 @foreach (var item in Model)
 {
     <div class="modal fade" id="editModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="editModal-@item.Id" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Organization Details</h4>
+                    <h4 class="modal-title">Organization Edit</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
+                        <input type="hidden" name="Id" value="@item.Id">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="row">
                             <div class="col-md-4">
@@ -263,7 +256,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="File">Logo Upload</label>
-                                    <input type="file" class="form-control-file" id="File" name="file" onchange="previewImage(event)">
+                                    <input type="file" class="form-control-file" id="File" name="logo" onchange="previewImage(event)">
 
                                     @if (string.IsNullOrEmpty(item.logo))
                                     {
@@ -282,15 +275,12 @@
                         <button class="btn btn-primary" type="submit" value="Create">Create</button>
                     </div>
                 </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
             </div>
         </div>
     </div>
 }
 
-<!-- Delete  Modal -->
+<!-- Delete Modal -->
 @foreach (var item in Model)
 {
     <div class="modal fade" id="DeleteModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel-@item.Id" aria-hidden="true">
@@ -319,7 +309,7 @@
 }
 
 @* Logo display when selected *@
-<<script>
+<script>
      function previewImage(event) {
          var reader = new FileReader();
          reader.onload = function () {

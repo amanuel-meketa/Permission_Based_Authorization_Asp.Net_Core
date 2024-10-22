@@ -7,15 +7,13 @@ namespace Identity.Helpers
 {
     public static class FileService
     {
-        private static readonly IWebHostEnvironment _webHostEnvironment;
-
-        public static string UploadedFile(IFormFile logo)
+        public static string UploadedFile(IFormFile logo, IWebHostEnvironment webHostEnvironment)
         {
             if (logo == null || logo.Length <= 0)
                 return null;
 
             string uniqueFileName = $"{Guid.NewGuid()}_{logo.FileName}";
-            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images", "OrganizationSetups");
+            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "Images", "OrganizationSetups");
             string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
             Directory.CreateDirectory(uploadsFolder);
@@ -27,5 +25,20 @@ namespace Identity.Helpers
 
             return uniqueFileName;
         }
+
+        public static bool DeleteFile(string fileName, IWebHostEnvironment webHostEnvironment)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                return false;
+
+            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "Images", "OrganizationSetups");
+            string filePath = Path.Combine(uploadsFolder, fileName);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            return true;
+        }
     }
 }
+

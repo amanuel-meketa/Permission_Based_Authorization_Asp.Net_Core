@@ -29,7 +29,6 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Permission Name</th>
                                     <th>Status</th>
                                 </tr>
@@ -38,10 +37,7 @@
                                 @for (var i = 0; i < Model.ManagePermissionsViewModel.Count(); i++)
                                 {
                                     <tr>
-                                        <td class="text-center" id="claimType@(i)">
-                                            @Model.ManagePermissionsViewModel[i].Type
-                                        </td>
-                                        <td class="text-center" id="claimValue@(i)">
+                                        <td class="text" id="claimValue@(i)">
                                             @Model.ManagePermissionsViewModel[i].Value
                                         </td>
                                         <td>

@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdwaSoft</title>
+    <title>Menagn Software</title>
     <style>
         /* Brand Logo */
         .brand-link {
@@ -49,10 +49,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="/Home/Index" class="nav-link">Home</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -73,7 +70,7 @@
                 <a href="#" class="brand-link">
                     <span class="brand-logo">
                         <span class="brand-text font-weight-bold" style="font-size: 24px; letter-spacing: 2px;">
-                            <i class="fas fa-code" style="font-size: 24px;"></i> AdwaSoft
+                            <i class="fas fa-code" style="font-size: 24px;"></i> MenagnSoft
                         </span>
                     </span>
                 </a>
@@ -141,6 +138,18 @@
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
     </div>
+    <footer class="main-footer">
+        <strong>Copyright &copy; <span id="currentYear"></span> <a href="#">Menagn Software</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 1.0
+        </div>
+    </footer>
+
+    <script>
+        // Get the current year and insert it into the footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
 
     <script src="~/adminLte/plugins/jquery/jquery.min.js"></script>
     <script src="~/adminLte/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -179,7 +188,7 @@
         $(function () {
             $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "buttons": ["copy", "excel", "pdf", "print"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
                 "paging": true,
