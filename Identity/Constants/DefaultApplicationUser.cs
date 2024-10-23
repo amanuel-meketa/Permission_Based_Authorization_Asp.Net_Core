@@ -10,7 +10,7 @@ namespace Identity.Constants
             {
                 Id = "39c64ad6-39ae-4de0-a0b2-9298a46b4b4c",
                 UserName = "SuperAdmin",
-                Email = "SuperAdmin@nordic.com",
+                Email = "Admin@nordic.com",
                 FirstName = "Shumete",
                 LastName = "Afrash",
                 EmailConfirmed = true,

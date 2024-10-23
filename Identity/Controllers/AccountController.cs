@@ -22,6 +22,7 @@ namespace Identity.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
         }
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()

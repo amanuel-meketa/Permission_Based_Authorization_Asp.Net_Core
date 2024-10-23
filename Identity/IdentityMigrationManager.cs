@@ -73,7 +73,7 @@ namespace Identity
             var userByEmail = await userManager.FindByEmailAsync(defaultUser.Email);
             if (userByName == null && userByEmail == null)
             {
-                await userManager.CreateAsync(defaultUser, "SuperAdmin");
+                await userManager.CreateAsync(defaultUser, "123456");
                 foreach (var defaultRole in defaultRoles)
                 {
                     await userManager.AddToRoleAsync(defaultUser, defaultRole.Name);
